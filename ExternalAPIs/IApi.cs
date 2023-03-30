@@ -4,6 +4,7 @@ namespace AdoteUmPet.ExternalAPIs
 {
     public interface IApi
     {
-        Task<string> RandomImage();
+        IApi NextApi { get; set; }
+        Task<string> RandomImage(TipoDePet type);
     }
 }

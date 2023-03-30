@@ -1,22 +1,19 @@
 ﻿@model IEnumerable<AdoteUmPet.Models.Pet>
 
 @{
-    ViewData["Title"] = "Edita";
+    ViewData["Title"] = "Administração";
 }
 
-<h1>Edita</h1>
+<h1>Administração</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a role="button" class="btn btn-primary" asp-controller="Pet" asp-action="Cadastro">Criar novo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagem)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Tipo)
@@ -37,18 +34,14 @@
                         @Html.DisplayFor(modelItem => item.Nome)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Imagem)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Tipo)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Descricao)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        <a role="button" class="btn btn-primary" asp-controller="Pet" asp-action="Atualizar" asp-route-id="@item.Id">Editar</a>
+                        <a role="button" class="btn btn-danger" asp-controller="Pet" asp-action="Excluir" asp-route-id="@item.Id">Apagar</a>
                     </td>
                 </tr>
             }

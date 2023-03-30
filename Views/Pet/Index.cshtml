@@ -1,8 +1,21 @@
 ﻿@using AdoteUmPet.ExternalAPIs;
-@model string
+@model List<Pet>
 
 <div class="container text-center">
-    <h1>Adote um pet</h1>
+    <img src="~/assets/logo.png" />
+</div>     
+<hr/>
+<div style="display: flex;flex-wrap: wrap;justify-content: space-around;align-items: flex-start; padding:15px">
+
+    @foreach(var pet in Model)
+    {
+        <div class="card border-primary" style="width: 18rem; margin: 10px">   
+            <img src="@pet.Imagem" class="card-img-top " alt="imagem do pet">
+            <div class="card-body">
+                <h5 class="card-title">@pet.Nome</h5>
+                <p class="card-text">@pet.Descricao</p>
+                <a href="#" class="btn btn-primary">Adotar </a>
+            </div>
+        </div>
+    }
 </div>
-
-

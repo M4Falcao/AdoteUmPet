@@ -1,8 +1,10 @@
 ﻿using AdoteUmPet.ExternalAPIs;
 using AdoteUmPet.Models;
+using AdoteUmPet.Repos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Drawing;
 using System.Net.Http.Json;
 
 namespace AdoteUmPet.Controllers
@@ -10,18 +12,20 @@ namespace AdoteUmPet.Controllers
 
     public class PetController : Controller
     {
-        private readonly IApi dogApi;
-        private readonly IApi catApi;
+        private readonly IApi externalApi;
+        private readonly IPetRepositorio _petRepositorio;
 
-        public PetController()
+        public PetController(IPetRepositorio petRepositorio)
         {
-            dogApi = new DogApi();
-            catApi = new CatApi();
+            this._petRepositorio = petRepositorio;
+            externalApi = new DogApi();
+         
         }
 
         public ActionResult Index()
         {
-            return View();
+            var lista = _petRepositorio.ListAll();
+            return View(lista);
         }
 
         public ActionResult Gerador()
@@ -32,20 +36,28 @@ namespace AdoteUmPet.Controllers
         {
             return View();
         }
-        public ActionResult Edita()
+        public ActionResult Administracao()
         {
-            return View();
+            var lista = _petRepositorio.ListAll();
+            return View(lista);
+        }
+
+        public ActionResult Atualizar(int id)
+        {
+            var pet = _petRepositorio.GetById(id);
+            return View(pet);
+        }
+
+        public ActionResult Excluir(int id)
+        {
+            var pet = _petRepositorio.GetById(id);
+            return View(pet);
         }
 
         public async Task<ActionResult> getImage(TipoDePet type)
         {
-            string resposta = null;
-            if(type == TipoDePet.Dog) {
-                resposta = await dogApi.RandomImage();
-            }
-            else if(type == TipoDePet.Cat) {
-                resposta = await catApi.RandomImage();
-            }
+            string resposta = await externalApi.RandomImage(type);
+          
 
             return View("Gerador", resposta);
 
@@ -53,18 +65,46 @@ namespace AdoteUmPet.Controllers
 
         public async Task<ActionResult> PartialGetImage(TipoDePet type)
         {
-            string resposta = null;
-            if (type == TipoDePet.Dog)
-            {
-                resposta = await dogApi.RandomImage();
-            }
-            else if (type == TipoDePet.Cat)
-            {
-                resposta = await catApi.RandomImage();
-            }
+            string resposta = await externalApi.RandomImage(type);
 
             return PartialView("PartialIcone", resposta);
 
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Cadastro(Pet pet)
+        {
+            Pet resposta;
+           
+            resposta = await _petRepositorio.Create(pet, externalApi);
+            
+            
+            if(resposta != null)
+            {
+                return RedirectToAction("Index");
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        public IActionResult Atualizar(Pet pet)
+        {
+            var resposta = _petRepositorio.Update(pet);
+            if (resposta != null)
+            {
+                return RedirectToAction("Administracao");
+            }
+            return BadRequest();
+        }
+
+        public IActionResult Deletar(int id)
+        {
+            var resposta = _petRepositorio.Delete(id);
+            if (resposta)
+            {
+                return RedirectToAction("Administracao");
+            }
+            return BadRequest();
         }
 
 

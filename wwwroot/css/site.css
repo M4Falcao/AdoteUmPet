@@ -1,17 +1,16 @@
-@font-face {
-    font-family: "Starboard ";
-    src: url("..\..\lib\fonts\Starboard_DEMO.otf");
-}
+@import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+
 
 html {
     font-size: 14px;
-    font-family: Roboto;
+    font-family: 'Patua One', cursive;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+        font-family: 'Patua One', cursive;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -24,7 +23,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    
 }
 
 .container-sm {
@@ -36,12 +36,15 @@ body {
     padding: 5px;
     background-color: #f5f5f5;
     border-radius: 5px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .icone {
     max-width: 100%;
     height: auto;
-    max-height: 250px;
+    max-height: 298px;
 }
 
 .gerador {
@@ -53,4 +56,8 @@ body {
     border-left-color: #ddd;
     border-bottom-color: #999;
     border-right-color: #999;
+}
+
+.form-group {
+    margin: 10px;
 }
